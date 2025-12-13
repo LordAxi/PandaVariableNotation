@@ -7,10 +7,10 @@ Redeclarations: {type}.edit
 
 ### Types
 
-s = string
-i = integer
-f = float
-b = boolean
+s = string<br>
+i = integer<br>
+f = float<br>
+b = boolean<br>
 
 ### Whitespace
 
