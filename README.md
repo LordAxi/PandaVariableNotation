@@ -1,5 +1,13 @@
 # PandaVariableNotation
 
+```text
+  _____      ___   _
+ |  _ \ \   / / \ | |
+ | |_) \ \ / /|  \| |
+ |  __/ \ V / | |\  |
+ |_|     \_/  |_| \_|
+```
+
 ## Syntax
 
 Declerations: {type}.new
@@ -29,3 +37,7 @@ b.new cool = true
 
 I measured the speed using 15 million lines of "s.new c = axi" the average time of 50 tests for reading was: 9.756416427019998 seconds.<br>
 Then i divided the average by 15 million which is: 0.0000006504277618013332 seconds.<br>
+
+```
+
+```
