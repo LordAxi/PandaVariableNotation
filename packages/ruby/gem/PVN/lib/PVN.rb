@@ -10,7 +10,7 @@ class PVN
             if self.check_syntax(tokens)
                 values[tokens[1]] = self.set_value(tokens, line)  
             else
-                self.error_handler("syntax", line)  
+                self.error_handler("syntax", line, 2)   
             end
         end
         return values
@@ -38,7 +38,7 @@ class PVN
             elsif tokens[0].end_with?("edit")
                 return tokens[3].to_s 
             else 
-                self.error_handler("syntax", line)
+                self.error_handler("syntax", line, 0)
             end
         when tokens[0].start_with?("i")
 
@@ -49,7 +49,7 @@ class PVN
 
                 return tokens[3].to_i
             else
-                self.error_handler("syntax", line)
+                self.error_handler("syntax", line, 0)
             end
         when tokens[0].start_with?("f")
             if tokens[0].end_with?("new")
@@ -59,20 +59,22 @@ class PVN
 
                 return tokens[3].to_f
             else
-                self.error_handler("syntax", line)
+                self.error_handler("syntax", line, 0)
             end
         when tokens[0].start_with?("b")
-            if tokens[3] == "true"
+            if tokens[3] == "true" || tokens[3] = "yes" || tokens[3] = "1"
                 return true
-            elsif tokens[3] == "false"
+            elsif tokens[3] == "false" || tokens[3] = "no" || tokens[3] = "0"
                 return false
+            else
+                self.error_handler("syntax", line, 0)
             end
         
         else 
             self.error_handler("syntax", line)
     end
     end
-    def self.error_handler(type, line)
+    def self.error_handler(type, line, token)
         error = ""
         case type
         
@@ -84,7 +86,7 @@ class PVN
             error = "The variable you try to declare is already declared"
         end
         self.logo_printer()
-        puts "Error: Line: #{line}. #{error}."
+        puts "Error: Line: #{line}, Token: #{token}. #{error}."
         
     end
     def self.logo_printer()
@@ -95,3 +97,6 @@ class PVN
         puts    " |_|     \\_/  |_| \\_| "
     end
 end
+
+R = PVN.read("examples/main.pvn")
+PVN.list(R)
