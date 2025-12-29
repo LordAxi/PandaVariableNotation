@@ -19,7 +19,7 @@
 
 ## Examples
 
-- s.new name = pnv<br>
+- s.new name = pvn<br>
 - i.new year_created = 2025<br>
 - f.new age_in_days = 1.5<br>
 - b.new cool = true
@@ -46,7 +46,7 @@ g.new names = s
 s.new name = PVN
 ```
 
-### Acces groups...
+### Access groups...
 
 - ...using {group_name}.{variable_name}
 
