@@ -97,6 +97,3 @@ class PVN
         puts    " |_|     \\_/  |_| \\_| "
     end
 end
-
-R = PVN.read("examples/main.pvn")
-PVN.list(R)
