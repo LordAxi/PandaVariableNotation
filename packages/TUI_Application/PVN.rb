@@ -1,20 +1,33 @@
 require "tty-screen"
 require "tty-cursor"
 require "tty-prompt"
+require "tty-logger"
+require "tty-table"
 require "PVN"
+require "json"
 
 SCREEN = TTY::Screen
 CURSOR = TTY::Cursor
 PROMPT = TTY::Prompt.new
+LOGGER = TTY::Logger.new do |config|
+  config.metadata = [:date, :time]
+end
+
+
+
 print CURSOR.clear_screen
 print CURSOR.move_to(0, 0)#
 
 
-
 $state = "menu"
+$path = ""
+TEXT_PATH = File.join(__dir__, "text.json")
+$TEXT = JSON.parse(File.read(TEXT_PATH))
+
 
 class TUI_Application
   def self.init()
+    
     width = SCREEN.width
     height = SCREEN.height
       print CURSOR.clear_screen()
@@ -34,59 +47,62 @@ class TUI_Application
       puts    "\\" + " -" * ((width/ 2)-1) + "/"
 
       print CURSOR.move_to(0, 8)
+        puts $state.gsub("_", " ").capitalize
+        puts "-" * width
+
       case $state
-      when "menu"
-        puts "Menu"
-        puts "-" * width
-        puts "Welcome to the PVN TUI Application"
-        puts "To see aviable commands use help"
-      when "help"
-        puts "Help"
-        puts "-" * width
-        puts "Aviable Commands: "
-        puts "menu"
-        puts "read"
-        puts "list"
-        puts "info"
       when "read"
-        puts "Read"
-        puts "-" * width
-      when "list"
-        puts "List"
-        puts "-" * width
-      when "info"
-        puts "This is a TUI Application for PVN"
-        puts "Third-Party Libraries" 
-        puts  "| Name       | License | Creator      | Link                                      |"
-        puts  "| ---------- | ------- | ------------ | ----------------------------------------- |"
-        puts  "| tty-prompt | MIT     | Piotr Murach | https://github.com/piotrmurach/tty-prompt |"
-        puts  "| tty-cursor | MIT     | Piotr Murach | https://github.com/piotrmurach/tty-cursor |"
-        puts  "| tty-screen | MIT     | Piotr Murach | https://github.com/piotrmurach/tty-screen |"
-        puts ""
-        puts ""
-        puts "PVN is opensource and licensed under the MIT License"
-        puts "GitHub: https://github.com/LordAxi/PandaVariableNotation"
-      when "no_valid_comment"
-        puts "Error: Please only type valid comments."
-        puts "Use ""help"" for a list of valid comments."
+        table = TTY::Table.new(header: ["NAME", "VALUE"])
+        r = PVN.read(File.join(__dir__, $path))
+        r.each do |key, value|
+            table << [key, value]
+        end
+        puts table.render(:unicode, alignment: [:center], resize: true, multiline: true)
+      when "path_empty", "file_not_existing", "no_valid_command"
+        $TEXT[$state].each do |content|
+          LOGGER.error content, file: "#{$path}"
+        end
+      else
+        $TEXT[$state].each do |content|
+          puts content
+        end
       end
       self.command_input()
   end
 
   def self.command_input
     command = PROMPT.ask("Command:")
-    case command.to_s.gsub(' ', '').downcase
+    command = command.to_s.downcase
+    if command == ("read")
+      command = "path_empty"
+      $path = ""
+    end
+    if command.start_with?("read ")
+      
+      $path = command.delete_prefix("read ").to_s
+      command = "read"
+      if $path == ""
+        command = "path_empty"
+      elsif File.file?(File.join(__dir__, $path)) == false
+        command = "file_not_existing"
+      end
+    end
+    case command
     when "q", "quit", "e", "exit", "c", "cancel", "s", "stop"
+      print CURSOR.clear_screen()
+      print CURSOR.move_to(0, 0)
       exit()
     when "r", "refresh", "redraw"
-      $state = $state
-    when "help", "read", "list", "menu", "info"
+
+    when "help", "read", "menu", "info", "path_empty", "file_not_existing"
       $state = command
     else
-      $state = "no_valid_comment"
+        $state = "no_valid_command"
     end
+
     self.init()
   end
 end
+
 
 TUI_Application.init()

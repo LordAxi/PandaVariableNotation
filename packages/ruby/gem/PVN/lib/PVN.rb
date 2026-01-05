@@ -18,7 +18,7 @@ class PVN
     end
     def self.list(var)
         var.each do |key, value|
-            puts "#{value}"
+            puts "#{key} = #{value}"
         end
     end
     def self.check_syntax(tokens)
@@ -62,16 +62,27 @@ class PVN
                 self.error_handler("syntax", line, 0)
             end
         when tokens[0].start_with?("b")
-            if tokens[3] == "true" || tokens[3] = "yes" || tokens[3] = "1"
-                return true
-            elsif tokens[3] == "false" || tokens[3] = "no" || tokens[3] = "0"
-                return false
-            else
-                self.error_handler("syntax", line, 0)
-            end
-        
-        else 
-            self.error_handler("syntax", line)
+            if tokens[0].end_with?("new")
+                if tokens[3] == "true" || tokens[3] == "yes" || tokens[3] == "1"
+                    return true
+                elsif tokens[3] == "false" || tokens[3] == "no" || tokens[3] == "0"
+                    return false
+                else
+                    self.error_handler("syntax", line, 3)
+                end
+            elsif tokens[0].end_with?("edit")
+                if tokens[3] == "true" || tokens[3] == "yes" || tokens[3] == "1"
+                    return true
+                elsif tokens[3] == "false" || tokens[3] == "no" || tokens[3] == "0"
+                    return false
+                else
+                    self.error_handler("syntax", line, 3)
+                end
+            else  
+                self.error_handler("syntax", line, 0)  
+            end 
+          else 
+            self.error_handler("syntax", line, 0)
     end
     end
     def self.error_handler(type, line, token)
