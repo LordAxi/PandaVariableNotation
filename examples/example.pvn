@@ -8,3 +8,4 @@ s.edit version = Beta-3
 b.new fast_parser = true
 b.new experimental_syntax = false
 s.new author = LordAxi
+g.new names = s

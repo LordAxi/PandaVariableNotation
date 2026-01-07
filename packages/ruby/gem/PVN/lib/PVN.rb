@@ -3,7 +3,7 @@ class PVN
         lines = File.readlines(file)
 
         values = {}
-
+        @groups = {}
         lines.each_with_index do |element, id|
             tokens = element.split
             line = id +1 
@@ -81,9 +81,19 @@ class PVN
             else  
                 self.error_handler("syntax", line, 0)  
             end 
-          else 
+        when tokens[0].start_with?("g")
+            case tokens[3]
+            when "s", "i", "f", "b", "a"
+                if tokens[0].end_with?("new")
+                @groups[tokens[1]] = tokens[3]
+                return tokens[3]
+                end
+                
+            else self.error_handler("syntax", line, 3)    
+            end
+        else 
             self.error_handler("syntax", line, 0)
-    end
+        end
     end
     def self.error_handler(type, line, token)
         error = ""
@@ -108,3 +118,4 @@ class PVN
         puts    " |_|     \\_/  |_| \\_| "
     end
 end
+PVN.read("/home/axi/PandaVariableNotation/examples/example.pvn")

@@ -3,6 +3,8 @@ require "tty-cursor"
 require "tty-prompt"
 require "tty-logger"
 require "tty-table"
+require "tty-markdown"
+require "pastel"
 require "PVN"
 require "json"
 
@@ -12,6 +14,9 @@ PROMPT = TTY::Prompt.new
 LOGGER = TTY::Logger.new do |config|
   config.metadata = [:date, :time]
 end
+PASTEL = Pastel.new
+
+
 
 
 
@@ -58,6 +63,17 @@ class TUI_Application
             table << [key, value]
         end
         puts table.render(:unicode, alignment: [:center], resize: true, multiline: true)
+      when "docs"
+        doc_path = ""
+        case $path.downcase 
+        when "readme"
+          doc_path = "../../README.md"
+        when "syntax"  
+          doc_path = "../../Syntax.md"
+        end
+        doc = TTY::Markdown.parse_file(File.join(__dir__, doc_path))
+        puts doc
+
       when "path_empty", "file_not_existing", "no_valid_command"
         $TEXT[$state].each do |content|
           LOGGER.error content, file: "#{$path}"
@@ -71,30 +87,52 @@ class TUI_Application
   end
 
   def self.command_input
-    command = PROMPT.ask("Command:")
-    command = command.to_s.downcase
+    input = PROMPT.ask(PASTEL.bold.green.underline("Command:"))
+
+    command = input.to_s.downcase
+    if command == ("docs")
+      command = "path_empty"
+      $path = ""
+    end
+    if command.start_with?("docs ")
+      
+      command = "docs"
+      $path = input[5..-1]
+      command = "docs"
+      if $path == ""
+        command = "path_empty"
+      elsif $path.downcase == "readme" || $path.downcase == "syntax" 
+        
+        
+      else
+        command = "file_not_existing"
+      end
+    end
+
+
+
     if command == ("read")
       command = "path_empty"
       $path = ""
     end
     if command.start_with?("read ")
       
-      $path = command.delete_prefix("read ").to_s
       command = "read"
+      $path = input[5..-1]
       if $path == ""
         command = "path_empty"
       elsif File.file?(File.join(__dir__, $path)) == false
         command = "file_not_existing"
       end
     end
-    case command
+    case command.downcase
     when "q", "quit", "e", "exit", "c", "cancel", "s", "stop"
       print CURSOR.clear_screen()
       print CURSOR.move_to(0, 0)
       exit()
     when "r", "refresh", "redraw"
 
-    when "help", "read", "menu", "info", "path_empty", "file_not_existing"
+    when "help", "read", "docs", "menu", "info", "path_empty", "file_not_existing"
       $state = command
     else
         $state = "no_valid_command"

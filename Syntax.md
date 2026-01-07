@@ -43,7 +43,7 @@ g.new names = s
 #### Example:
 
 ```
-s.new name = PVN
+s.new name = PVN !names
 ```
 
 ### Access groups...
