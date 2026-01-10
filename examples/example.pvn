@@ -1,11 +1,12 @@
-s.new app_name = PVN
+s.new app_name = "PVN hello"
 i.new year_created = 2025
 b.new open_source = true
 i.new users = 0
-s.new version = Beta-3
+s.new version = "Beta-3"
 i.edit users = 0
-s.edit version = Beta-3
+s.edit version = "Beta-3"
 b.new fast_parser = true
 b.new experimental_syntax = false
-s.new author = LordAxi
-g.new names = s
+s.new author = "LordAxi"
+s.edit author = "lordaxi"
+s.new a = "he said \"hi\""
