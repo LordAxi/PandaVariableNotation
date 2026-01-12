@@ -5,8 +5,10 @@ i.new users = 0
 s.new version = "Beta-3"
 i.edit users = 0
 s.edit version = "Beta-3"
+
+# this is a Comment
 b.new fast_parser = true
 b.new experimental_syntax = false
 s.new author = "LordAxi"
 s.edit author = "lordaxi"
-s.new a = "he said \"hi\""
+s.new a = "he said "hi"/"

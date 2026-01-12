@@ -8,6 +8,10 @@
  |_|     \_/  |_| \_|
 ```
 
+# Attention
+
+The gem and the TUI_Application are now on own github repositorys:  [gem](https://github.com/LordAxi/PVN-gem)  [TUI_Application](https://github.com/LordAxi/PVN_TUI_Application)
+Starting from beta-4.0.0 the Version number is individual for every part of PVN. 
 ## Syntax
 
 Declerations: {type}.new
@@ -30,9 +34,3 @@ s.new name = "pnv"<br>
 i.new year_created = 2025<br>
 f.new age_in_days = 1.5<br>
 b.new cool = true
-
-## Speed
-
-### Ruby
-
-Soon new data because of new features and the comming addition of groups
