@@ -1,1 +1,3 @@
 *.pvn linguist-language=PandaVariableNotation
+*.pvn linguist-detectable=true
+
