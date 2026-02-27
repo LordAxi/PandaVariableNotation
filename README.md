@@ -12,6 +12,13 @@
 
 The gem and the TUI_Application are now on own github repositorys:  [gem](https://github.com/LordAxi/PVN-gem)  [TUI_Application](https://github.com/LordAxi/PVN_TUI_Application)
 Starting from beta-4.0.0 the Version number is individual for every part of PVN. 
+
+## Supported Languages
+
+- [gem (Ruby)](https://github.com/LordAxi/PVN-gem)
+- [C++](https://github.com/LordAxi/PVN-cpp)
+- [C#](https://github.com/LordAxi/PVN-cs)
+
 ## Syntax
 
 Declerations: {type}.new
