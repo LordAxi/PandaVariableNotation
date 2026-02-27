@@ -17,7 +17,7 @@ Starting from beta-4.0.0 the Version number is individual for every part of PVN.
 
 - [gem (Ruby)](https://github.com/LordAxi/PVN-gem)
 - [C++](https://github.com/LordAxi/PVN-cpp)
-- [C#](https://github.com/LordAxi/PVN-cs)
+- [C#](https://github.com/LordAxi/PVN-C-sharp)
 
 ## Syntax
 
