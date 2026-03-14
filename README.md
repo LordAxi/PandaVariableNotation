@@ -41,7 +41,7 @@ This Notation is heavily based on Whitespace to make reading easier.
 
 ### Examples
 
-s.new name = "pnv"<br>
+s.new name = "pvn"<br>
 i.new year_created = 2025<br>
 f.new age_in_days = 1.5<br>
 b.new cool = true
